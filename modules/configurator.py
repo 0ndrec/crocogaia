@@ -39,4 +39,22 @@ def check_values(config):
         save_changes(config)
     else:
         logger.info("Setted minimum request frequency per hour: {}".format(config.get('MIN_REQ_FREQUENCY')))
+
+
+    if config.get('MIN_SENTENCE_LEN') is None or config.get('MIN_SENTENCE_LEN') == 0:
+        val_len = input('Please enter your minimum sentence length: ')
+        config['MIN_SENTENCE_LEN'] = int(val_len)
+        save_changes(config)
+    else:
+        logger.info("Setted minimum sentence length: {}".format(config.get('MIN_SENTENCE_LEN')))
+
+
+    if config.get('MAX_SENTENCE_LEN') is None or config.get('MAX_SENTENCE_LEN') == 0:
+        val_len = input('Please enter your maximum sentence length: ')
+        config['MAX_SENTENCE_LEN'] = int(val_len)
+        save_changes(config)
+    else:
+        logger.info("Setted maximum sentence length: {}".format(config.get('MAX_SENTENCE_LEN')))
+
+
     return config
