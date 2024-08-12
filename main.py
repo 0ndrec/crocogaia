@@ -50,6 +50,10 @@ if __name__ == "__main__":
     logging.info(f"{start_time} - Start")
 
     while True:
+        print(MAX_SENTENCE_LENGTH)
+        print(MIN_SENTENCE_LENGTH)
+        nb_words_random = random.randint(MIN_SENTENCE_LENGTH, MAX_SENTENCE_LENGTH)
+        print(nb_words_random)
         random_question = faker.sentence(nb_words=random.randint(MIN_SENTENCE_LENGTH, MAX_SENTENCE_LENGTH))
         message = {
             "messages": [
