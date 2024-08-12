@@ -90,9 +90,17 @@ EOL
         # Перезагрузка systemd и активация службы
         sudo systemctl daemon-reload || error_exit "Не удалось перезагрузить systemd."
         sudo systemctl enable gaiafaker.service || error_exit "Не удалось включить службу."
-        sudo systemctl start gaiafaker.service || error_exit "Не удалось запустить службу."
+        # sudo systemctl start gaiafaker.service || error_exit "Не удалось запустить службу."
 
-        echo "Служба запущена!"
+        echo "Служба включена!"
+        echo "Запуск службы: sudo systemctl start gaiafaker.service"
+        echo "Отключить службу: sudo systemctl stop gaiafaker.service"
+        echo "Состояние службы: sudo systemctl status gaiafaker.service"
+        echo "Мониторинг журнала службы: sudo journalctl -u gaiafaker.service -f"
+        sleep 3
+
+        # Запуск скрипта main.py
+        python3 main.py
 
     else
         echo "Служба не создана."
