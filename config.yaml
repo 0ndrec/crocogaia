@@ -1,0 +1,5 @@
+EVM_ADDRESS: ''
+MIN_REQ_FREQUENCY: 60
+MIN_SENTENCE_LEN: 8
+MAX_SENTENCE_LEN: 64
+URL_API: .us.gaianet.network/v1/chat/completions
