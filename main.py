@@ -42,8 +42,8 @@ if __name__ == "__main__":
 
     EVM_ADDRESS = config.get('EVM_ADDRESS')
     MIN_REQ_FREQENCY = config.get('MIN_REQ_FREQUENCY')
-    MIN_SENTENCE_LEN = config.get('MIN_SENTENCE_LENGTH')
-    MAX_SENTENCE_LEN = config.get('MAX_SENTENCE_LENGTH')
+    MIN_SENTENCE_LEN = config.get('MIN_SENTENCE_LEN')
+    MAX_SENTENCE_LEN = config.get('MAX_SENTENCE_LEN')
     node_url = EVM_ADDRESS + config.get('URL_API')
 
     start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
@@ -63,9 +63,8 @@ if __name__ == "__main__":
 
         response = send_message(node_url, message)
         reply = extract_reply(response)
-        logging.info(f"{question_time} - {random_question} - {reply_time} - {reply}")
+        logging.info(f"{question_time} - {random_question} - {reply}")
 
-        reply_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
 
         # Set the delay in seconds. value is req per hour
         delay = random.randint(MIN_REQ_FREQENCY, 3600)
