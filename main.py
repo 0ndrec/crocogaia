@@ -42,19 +42,16 @@ if __name__ == "__main__":
 
     EVM_ADDRESS = config.get('EVM_ADDRESS')
     MIN_REQ_FREQENCY = config.get('MIN_REQ_FREQUENCY')
-    MIN_SENTENCE_LENGTH = config.get('MIN_SENTENCE_LENGTH')
-    MAX_SENTENCE_LENGTH = config.get('MAX_SENTENCE_LENGTH')
+    MIN_SENTENCE_LEN = config.get('MIN_SENTENCE_LENGTH')
+    MAX_SENTENCE_LEN = config.get('MAX_SENTENCE_LENGTH')
     node_url = EVM_ADDRESS + config.get('URL_API')
 
     start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     logging.info(f"{start_time} - Start")
 
     while True:
-        print(MAX_SENTENCE_LENGTH)
-        print(MIN_SENTENCE_LENGTH)
-        nb_words_random = random.randint(MIN_SENTENCE_LENGTH, MAX_SENTENCE_LENGTH)
-        print(nb_words_random)
-        random_question = faker.sentence(nb_words=random.randint(MIN_SENTENCE_LENGTH, MAX_SENTENCE_LENGTH))
+
+        random_question = faker.sentence(nb_words=random.randint(MIN_SENTENCE_LEN, MAX_SENTENCE_LEN))
         message = {
             "messages": [
                 {"role": "system", "content": "You are a helpful assistant."},
