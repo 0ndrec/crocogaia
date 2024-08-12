@@ -66,7 +66,7 @@ fi
 
 
 
-SERVICE_FILE="/etc/systemd/system/"
+SERVICE_FILE="/etc/systemd/system/gaiafaker.service"
 
 if [ -f "main.py" ]; then
     read -p "Хотите создать службу для запуска Gaia Faker? (y/n): " -n 1 -r
