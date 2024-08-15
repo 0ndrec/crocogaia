@@ -46,13 +46,6 @@ case $PLATFORM in
 esac
 
 
-# Установка библиотек из requirements.txt
-if [ -f "requirements.txt" ]; then
-    echo "Установка библиотек из requirements.txt..."
-    pip3 install -r requirements.txt || error_exit "Не удалось установить библиотеки из requirements.txt."
-else
-    echo "Файл requirements.txt не найден, пропускаем установку зависимостей."
-fi
 
 # Проверка установки Python и pip
 if command -v python3 &> /dev/null && command -v pip3 &> /dev/null
@@ -64,12 +57,20 @@ else
     error_exit "Ошибка: Python или pip не были установлены."
 fi
 
+# Установка библиотек из requirements.txt
+if [ -f "requirements.txt" ]; then
+    echo "Установка библиотек из requirements.txt..."
+    pip3 install -r requirements.txt || error_exit "Не удалось установить библиотеки из requirements.txt."
+else
+    echo "Файл requirements.txt не найден, пропускаем установку зависимостей."
+fi
 
 
-SERVICE_FILE="/etc/systemd/system/gaiafaker.service"
+
+SERVICE_FILE="/etc/systemd/system/crocogaia.service"
 
 if [ -f "main.py" ]; then
-    read -p "Хотите создать службу для запуска Gaia Faker? (y/n): " -n 1 -r
+    read -p "Хотите создать службу для запуска Croco Gaia? (y/n): " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
         sudo bash -c "cat > $SERVICE_FILE" <<EOL
@@ -89,15 +90,15 @@ EOL
 
         # Перезагрузка systemd и активация службы
         sudo systemctl daemon-reload || error_exit "Не удалось перезагрузить systemd."
-        sudo systemctl enable gaiafaker.service || error_exit "Не удалось включить службу."
-        # sudo systemctl start gaiafaker.service || error_exit "Не удалось запустить службу."
+        sudo systemctl enable crocogaia.service || error_exit "Не удалось включить службу."
+        # sudo systemctl start crocogaia.service || error_exit "Не удалось запустить службу."
 
         echo "Служба включена!"
-        echo "Запуск службы: sudo systemctl start gaiafaker.service"
-        echo "Отключить службу: sudo systemctl stop gaiafaker.service"
-        echo "Состояние службы: sudo systemctl status gaiafaker.service"
-        echo "Мониторинг журнала службы: sudo journalctl -u gaiafaker.service -f"
-        sleep 3
+        echo "Запуск службы: sudo systemctl start crocogaia.service"
+        echo "Отключить службу: sudo systemctl stop crocogaia.service"
+        echo "Состояние службы: sudo systemctl status crocogaia.service"
+        echo "Мониторинг журнала службы: sudo journalctl -u crocogaia.service -f"
+        sleep 2
 
         # Запуск скрипта main.py
         python3 main.py

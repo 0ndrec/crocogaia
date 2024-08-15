@@ -1,5 +1,7 @@
-EVM_ADDRESS: ''
-MIN_REQ_FREQUENCY: 60
-MIN_SENTENCE_LEN: 8
-MAX_SENTENCE_LEN: 64
-URL_API: .us.gaianet.network/v1/chat/completions
+endpoints:
+- https://0x4dbd524713624d52f8d4ddae124bc3bd0850e5d1.us.gaianet.network/v1/chat/completions
+- https://0x8c113a28a1282c97b9cef3303a57d1c11b6d4669.us.gaianet.network/v1/chat/completions
+- https://0x28767797f1ee0df4c71f3ab5f67ca99abc41699f.us.gaianet.network/v1/chat/completions
+
+request_interval: 5.0
+sentence_length: 12

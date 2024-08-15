@@ -1,72 +1,63 @@
-import requests
-import random
-import logging
-import time
-from modules.configurator import load_config, check_values
-from faker import Faker
-from datetime import datetime
+import os
+from utils.config import load_config, save_config, update_config, load_json
+from utils.requester import send_requests
+from utils.maker import make_sentence
+from time import sleep
 
+def analyze_config():
+    config_file = "config.yaml"
 
+    # Check if config exists, otherwise prompt user to create one
+    if not os.path.exists(config_file):
+        print("Configuration file not found. Creating a new one.")
+        config = update_config()
+        save_config(config_file, config)
+    else:
+        config = load_config(config_file)
+        print("Configuration file found.")
+        print('\n')
+        for key, value in config.items():
+            print(f"{key}: {value}")
+        print('\n')
 
-#----------------Logging----------------
-logging.basicConfig(filename='chat_log.txt', level=logging.INFO, format='%(asctime)s - %(message)s')
-#----------------Faker----------------
-faker = Faker()
-#----------------Headers----------------    
-headers = {
-    "accept": "application/json",
-    "Content-Type": "application/json"
-}
-
-
-
-
-
-
-def send_message(node_url, message):
+    # Load configuration
     try:
-        response = requests.post(node_url, json=message, headers=headers)
-        response.raise_for_status()
-        return response.json()
+        num_requests = config.get("num_requests")
+        request_interval = config.get("request_interval")
+        sentence_length = config.get("sentence_length")
+        endpoints = config.get("endpoints")
     except Exception as e:
-        logging.error(f"{datetime.now().strftime('%Y-%m-%d %H:%M:%S')} - {e}")
+        print(f"Error loading configuration: {e}")
 
-def extract_reply(response):
-    if response and 'choices' in response:
-        return response['choices'][0]['message']['content']
-    return ""
-
+    return num_requests, request_interval, sentence_length, endpoints
 
 if __name__ == "__main__":
-    config = check_values(load_config())
+    # Unpack configuration
+    num_requests, request_interval, sentence_length, endpoints = analyze_config()
 
-    EVM_ADDRESS = config.get('EVM_ADDRESS')
-    MIN_REQ_FREQENCY = config.get('MIN_REQ_FREQUENCY')
-    MIN_SENTENCE_LEN = config.get('MIN_SENTENCE_LEN')
-    MAX_SENTENCE_LEN = config.get('MAX_SENTENCE_LEN')
-    node_url = EVM_ADDRESS + config.get('URL_API')
+    # Load headers and message
+    try:
+        headers = load_json("data/headers.json")
+        message = load_json("data/message.json")
+    except Exception as e:
+        print(f"Error loading headers and message: {e}")
 
-    start_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    logging.info(f"{start_time} - Start")
 
     while True:
+        textload = make_sentence(sentence_length)
 
-        random_question = faker.sentence(nb_words=random.randint(MIN_SENTENCE_LEN, MAX_SENTENCE_LEN))
-        message = {
-            "messages": [
-                {"role": "system", "content": "You are a helpful assistant."},
-                {"role": "user", "content": random_question}
-            ]
-        }
+        for endpoint in endpoints:
+            print("Sending request to: ", endpoint)
+            resp = send_requests(textload, headers, message, endpoint, timeout= 500)
 
-        question_time = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
+            if resp:
+                print("Response content: ", resp["choices"][0]["message"]["content"])
+                print("Response model: ", resp["model"])
+                print("Response ID: ", resp["id"])
+            else:
+                pass
 
-        response = send_message(node_url, message)
-        reply = extract_reply(response)
-        logging.info(f"{question_time} - {random_question} - {reply}")
+            print("\n")
 
-
-        # Set the delay in seconds. value is req per hour
-        delay = random.randint(MIN_REQ_FREQENCY, 3600)
-        time.sleep(delay)
-
+        print("Sleeping for", request_interval, "seconds...")
+        sleep(request_interval)
