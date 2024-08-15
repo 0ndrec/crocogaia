@@ -115,7 +115,13 @@ EOL
         echo "Мониторинг журнала службы: sudo journalctl -u crocogaia.service -f"
         sleep 2
 
-        # Запуск скрипта main.py
+        read -p "Хотите запустить скрипт ? (y/n): " -n 1 -r
+        echo
+        if [[ $REPLY =~ ^[Yy]$ ]]; then
+            python3 main.py
+        else
+            echo "Скрипт не запущен."
+        fi
         python3 main.py
 
     else
