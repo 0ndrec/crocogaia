@@ -7,3 +7,7 @@ bash <(curl -s "https://raw.githubusercontent.com/0ndrec/crocogaia/main/install.
 ```bash
 sudo systemctl start crocogaia.service
 ```
+## Редактировать конфиг
+```bash
+nano config.yaml
+```
