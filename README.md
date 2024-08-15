@@ -1,7 +1,7 @@
 ## Использование
 
 ```bash
-  bash <(curl -s "https://raw.githubusercontent.com/0ndrec/crocogaia/main/install.sh")
+bash <(curl -s "https://raw.githubusercontent.com/0ndrec/crocogaia/main/install.sh")
 ```
 ## Запуск службы
 ```bash
