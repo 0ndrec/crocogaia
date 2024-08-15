@@ -9,7 +9,7 @@ error_exit() {
 PLATFORM=$(uname -s) || error_exit "Не удалось определить платформу."
 echo "Платформа: $PLATFORM"
 
-# Установка Python
+
 case $PLATFORM in
     Linux)
         echo "Платформа Linux обнаружена"
@@ -56,6 +56,21 @@ then
 else
     error_exit "Ошибка: Python или pip не были установлены."
 fi
+
+#  Chech if Git installed. If not, install it
+if ! command -v git &> /dev/null
+then
+    echo "Git не найден. Устанавливаем Git..."
+    sudo apt-get install -y git || error_exit "Не удалось установить Git."
+fi
+
+# Clone repository from GitHub
+git clone https://github.com/0ndrec/crocogaia.git || error_exit "Не удалось получить репозиторий Croco Gaia из GitHub."
+
+
+cd crocogaia || error_exit "Не удалось перейти в каталог crocogaia."
+
+
 
 # Установка библиотек из requirements.txt
 if [ -f "requirements.txt" ]; then
